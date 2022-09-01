@@ -1,0 +1,54 @@
+service: motrix-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    TABLE_NAME: ContentTable
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: ["${self:provider.environment.TABLE_NAME}", Arn]
+
+functions:
+  scan:
+    handler: api/scan.scan
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  create:
+    handler: api/create.create
+    events:
+      - httpApi:
+          path: /create
+          method: post
+
+resources:
+  Resources:
+    ContentTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: contentId
+            AttributeType: S
+          - AttributeName: updatedAt
+            AttributeType: N
+        KeySchema:
+          - AttributeName: contentId
+            KeyType: HASH
+          - AttributeName: updatedAt
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST

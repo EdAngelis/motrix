@@ -1,0 +1,9 @@
+### POST
+
+POST https://03sf7mhupk.execute-api.us-east-1.amazonaws.com/create
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "content": "This is a content test"
+}
