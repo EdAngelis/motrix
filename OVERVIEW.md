@@ -1,13 +1,17 @@
-// DATABASE
-
-exports.default = {};
-
+```javascript
 const database = [
   {
     contentTable: [
       {
         id: "",
-        revisions: [{ title: "", content: "", createdAt: "", updatedAt: "" }],
+        updatedAt: "",
+        revisions: [
+          {
+            title: "",
+            content: "",
+            createdAt: "",
+          },
+        ],
       },
     ],
   },
@@ -52,3 +56,4 @@ const api = [
     },
   },
 ];
+```
